@@ -70,7 +70,7 @@ fig = figure(P.figNum); clf(fig);
 set(fig,'KeyPressFcn',@keyDownListener)
 
 % Set up to save video
-if P.mp4 == 1
+if P.avi == 1
     vidObj = VideoWriter(strcat(P.vidName,'.avi'),'Motion JPEG AVI');
     vidObj.FrameRate = 25;
     vidObj.Quality = 100;
