@@ -1,4 +1,4 @@
-function draw_bb_w2DArm(time,X)
+function draw_bb_w2DOFArm(time,X)
 
 
 %% Define colors
@@ -16,7 +16,7 @@ alpha = X(3);
 params = get_ballbot2D_model_params(1);
 
 %% Perform forward kinematics
-[p_ball,p_body,p_arm1,p_arm2,p_com] = planarBB_w2DArm_kinematics_wrap(X,params);
+[p_ball,p_body,p_shoulder,p_arm1,p_arm2,p_com] = ballbot2D_w2DOFArm_kinematics_wrap(X,params);
 
 %% Unpack Robot Dimension Parameters
 
@@ -32,13 +32,13 @@ ball_x = [p_ball(1) + params.r*cos(t+theta) p_ball(1)];
 ball_y = [p_ball(2) + params.r*sin(t+theta) p_ball(2)];
 
 %COM
-com_x = p_body(1);
-com_y = p_body(2);
+% com_x = p_body(1);
+% com_y = p_body(2);
 
 %body rectangle shape
-body_x = com_x + [-r_b r_b r_b -r_b -r_b].*cos(phi) + ...
+body_x = p_body(1) + [-r_b r_b r_b -r_b -r_b].*cos(phi) + ...
 	([h_b h_b -h_b -h_b h_b]./2).*sin(phi);
-body_y = com_y - [-r_b r_b r_b -r_b -r_b].*sin(phi) + ...
+body_y = p_body(2) - [-r_b r_b r_b -r_b -r_b].*sin(phi) + ...
 	([h_b h_b -h_b -h_b h_b]./2).*cos(phi);
 
 %body center line
@@ -46,8 +46,8 @@ cl_x  = [p_ball(1) p_ball(1) + h_b*sin(phi)];
 cl_y  = [p_ball(2) p_ball(2) + h_b*cos(phi)];
 
 %arm
-arm1_x = [params.L_armjoint*sin(phi) p_arm1(1)];
-arm1_y = [params.L_armjoint*cos(phi) p_arm1(2)];
+arm1_x = [p_shoulder(1) p_arm1(1)];
+arm1_y = [p_shoulder(2) p_arm1(2)];
 
 arm2_x = [arm1_x(2) p_arm2(1)];
 arm2_y = [arm1_y(2) p_arm2(2)];
